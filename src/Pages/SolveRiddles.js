@@ -17,7 +17,7 @@ const SolveRiddles = () => {
     const [userChars, setUserChars] = useState(0);
     const [trueAnswer, setTrueAnswer] = useState(false);
     const [falseAnswer, setFalseAnswer] = useState(false);
-    let index = 0;
+    const [index, setIndex] = useState(0);
 
     useEffect(() => {
         
@@ -82,6 +82,15 @@ const SolveRiddles = () => {
             console.log("Right answer");
             setTrueAnswer(true);
             setFalseAnswer(false);
+            setIndex(index + 1);
+            console.log("The index now is ", index);
+            console.log("Going to be using the riddle ", riddles[index]);
+            setAnswer(riddles[index].answer);
+            setClueDescription(riddles[index].first_clue);
+            setClueNumberLabel("First Clue");
+            setNumberOfWordsInAnswer(WordCount(riddles[index].answer));
+            setNumberOfCharsInAnswer(CharCount(riddles[index].answer));
+            setStringDistance(StringDistance("", riddles[index].answer));
         }
         else{
             console.log("Try again");
@@ -144,9 +153,9 @@ const SolveRiddles = () => {
         return(
             <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div className="mt-3 text-center">
-                    <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                         <svg
-                        class="h-6 w-6 text-green-600"
+                        class="h-6 w-6 text-red-600"
 				        fill="none"
 				        stroke="currentColor"
 				        viewBox="0 0 24 24"
@@ -156,7 +165,8 @@ const SolveRiddles = () => {
 					    stroke-linecap="round"
 					    stroke-linejoin="round"
 					    stroke-width="2"
-					    d="M5 13l4 4L19 7"
+                        scale={2}
+					    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
 				        ></path>
 			            </svg>
                     </div>
@@ -170,7 +180,7 @@ const SolveRiddles = () => {
                     <button
                     onClick={clearFalseAnswerModal}
                     id="ok-btn"
-				    class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+				    class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-green-300"
                     >
 				    OK
                     </button>
@@ -239,7 +249,7 @@ const SolveRiddles = () => {
     return (
         <>
         <div className="grid grid-rows-2 gap-15 place-items-center mt-10"> 
-          <div className="p-6 w-96 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <div className="p-6 w-96 bg-white rounded-lg border border-green-200 shadow-md dark:bg-green-800 dark:border-green-700">
             <a href="#">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{clueNumberLabel}</h5>
             </a>
@@ -255,7 +265,7 @@ const SolveRiddles = () => {
             </p>
              
              <input type="text" name="answer" onChange={(e) => {calculateMetrics(e.target.value)}} required id="answer" className="block p-4 w-full mb-5 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            <a href="#" onClick={checkAnswer}  className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <a href="#" onClick={checkAnswer}  className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-green-600 bg-white border-green-600 border-2 rounded-lg hover:bg-green-600 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
             Go!
               <svg aria-hidden="true" className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
             </a>
@@ -264,7 +274,7 @@ const SolveRiddles = () => {
         </div>
 
 
-            <div className="p-6 max-w-sm mt-10 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 max-w-sm mt-10 bg-white rounded-lg border border-green-200 shadow-md dark:bg-green-800 dark:border-green-700">
                 <label htmlFor="">Word Count : </label>
                 <p>{userNumberOfWords}/{numberOfWordsInAnswer}</p>
                 <label htmlFor="">Character count : </label>
